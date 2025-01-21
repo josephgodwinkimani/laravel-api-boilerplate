@@ -46,12 +46,12 @@ class DataTransformService
      * Transform an Item
      *
      * @param string $resourceKey
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param \Illuminate\Database\Eloquent\Model|null $model
      * @param \League\Fractal\TransformerAbstract $transformer
      * @param string $type
      * @return array|bool|string|null
      */
-    public function item(string $resourceKey, Model $model, TransformerAbstract $transformer, string $type = null)
+    public function item(string $resourceKey, Model|null $model, TransformerAbstract $transformer, string $type = null)
     {
         /**
          * Structure all Transformed data in certain ways
@@ -115,14 +115,14 @@ class DataTransformService
      * Transform a Collection
      *
      * @param string $resourceKey
-     * @param \Illuminate\Database\Eloquent\Collection $collection
+     * @param \Illuminate\Database\Eloquent\Collection|null $collection
      * @param \League\Fractal\TransformerAbstract $transformer
      * @param string $type
      * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator|null $paginator
      * @param \League\Fractal\Pagination\CursorInterface|null $cursor
      * @return array|bool|string|null
      */
-    public function collection(string $resourceKey, \Illuminate\Database\Eloquent\Collection $collection, TransformerAbstract $transformer, string $type = null, LengthAwarePaginator $paginator = null, CursorInterface $cursor = null)
+    public function collection(string $resourceKey, \Illuminate\Database\Eloquent\Collection|null $collection, TransformerAbstract $transformer, string $type = null, LengthAwarePaginator $paginator = null, CursorInterface $cursor = null)
     {
         /**
          * Structure all Transformed data in certain ways

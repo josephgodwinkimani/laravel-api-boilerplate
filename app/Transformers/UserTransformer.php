@@ -11,11 +11,15 @@ class UserTransformer extends Fractal\TransformerAbstract
     /**
      * Summary of transform
      * 
-     * @param \App\Models\User $user
+     * @param \App\Models\User|null $user
      * @return array
      */
-    public function transform(User $user)
+    public function transform(User|null $user)
     {
+        if (is_null($user)) {
+            return [];
+        }
+
         return [
             'id' => (int) $user->id,
             'name' => $user->name,

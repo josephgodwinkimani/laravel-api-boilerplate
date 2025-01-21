@@ -26,9 +26,23 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use League\Fractal\Pagination\Cursor;
 use Rap2hpoutre\FastExcel\FastExcel;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class UserController extends Controller
+class UserController extends Controller implements HasMiddleware
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'text',
+            'yaml',
+            'xml'
+        ];
+    }
+
     /**
      * @var 
      */
@@ -46,9 +60,6 @@ class UserController extends Controller
     {
         $this->tenantService = $tenantService;
         $this->dataTransformer = new DataTransformService();
-        //$this->middleware("xml")->only("index");
-        //$this->middleware("yaml")->only("index");
-        $this->middleware("text")->only("show");
     }
 
     /**
@@ -84,9 +95,13 @@ class UserController extends Controller
             $users = $someModel->take($limit)->get();
         }
 
-        $newCursor = $users->last()->id;
+        $cursor = null;
 
-        $cursor = new Cursor($currentCursor, $previousCursor, $newCursor, $users->count());
+        if (!$users->isEmpty()) {
+            $newCursor = $users->last()->id;
+
+            $cursor = new Cursor($currentCursor, $previousCursor, $newCursor, $users->count());
+        }
 
         $paginator = $someModel->paginate();
 
