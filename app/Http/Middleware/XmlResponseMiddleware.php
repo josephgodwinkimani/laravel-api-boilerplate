@@ -33,6 +33,7 @@ class XmlResponseMiddleware
         $response->header("Content-Type", "application/xml");
         $response->header("Access-Control-Expose-Headers", "*");
         $response->header("Access-Control-Allow-Credentials", "true");
+
         return $response;
     }
 }

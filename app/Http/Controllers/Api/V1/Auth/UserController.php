@@ -44,12 +44,12 @@ class UserController extends Controller implements HasMiddleware
     }
 
     /**
-     * @var 
+     * @var
      */
     protected $tenantService;
 
     /**
-     * @var 
+     * @var
      */
     protected $dataTransformer;
 
@@ -66,14 +66,14 @@ class UserController extends Controller implements HasMiddleware
      * List all Users.
      *
      * This endpoint allows you to list all users of a tenant.
-     * It"s a really useful endpoint, and you should play around 
+     * It"s a really useful endpoint, and you should play around
      * with it for a bit.
      * <aside class="notice">Supports json, xml, yaml, text 😎</aside>
-     * 
+     *
      * @queryParam cursor string Indicates where to start fetching results.
      * @queryParam previous string Indicates position of result to start fetching from.
-     * @queryParam limit number Indicates how many records you prefer to fetch.   
-     * @response status=200 scenario="success" 
+     * @queryParam limit number Indicates how many records you prefer to fetch.
+     * @response status=200 scenario="success"
      */
     public function index(Request $request)
     {
@@ -117,14 +117,14 @@ class UserController extends Controller implements HasMiddleware
 
     /**
      * Fetch details of one record
-     * 
+     *
      * This endpoint allows you to fetch a single user of a tenant.
-     * It"s a really useful endpoint, and you should play around 
+     * It"s a really useful endpoint, and you should play around
      * with it for a bit.
      * <aside class="notice">Supports text 😎</aside>
-     * 
+     *
      * @urlParam id number
-     * @response status=200 scenario="success" 
+     * @response status=200 scenario="success"
      */
     public function show(Request $request)
     {
@@ -147,17 +147,17 @@ class UserController extends Controller implements HasMiddleware
 
     /**
      * Save a single record
-     * 
+     *
      * This endpoint allows you to save a single record for a single tenant.
-     * It"s a really useful endpoint, and you should play around 
+     * It"s a really useful endpoint, and you should play around
      * with it for a bit.
      * <aside class="notice">Supports json, xml, yaml 😎</aside>
-     * 
+     *
      * @bodyParam name string
      * @bodyParam email string
      * @bodyParam phone string
      * @bodyParam enabled boolean
-     * @response status=200 scenario="success" 
+     * @response status=200 scenario="success"
      */
     public function store(Request $request)
     {
@@ -192,18 +192,18 @@ class UserController extends Controller implements HasMiddleware
 
     /**
      * Update a single record
-     * 
+     *
      * This endpoint allows you to update a single record for a single tenant.
-     * It"s a really useful endpoint, and you should play around 
+     * It"s a really useful endpoint, and you should play around
      * with it for a bit.
      * <aside class="notice">Supports xml 😎</aside>
-     * 
+     *
      * @urlParam id number
      * @bodyParam name string
      * @bodyParam email string
      * @bodyParam phone string
      * @bodyParam enabled boolean
-     * @response status=200 scenario="success" 
+     * @response status=200 scenario="success"
      */
     public function update(Request $request)
     {
@@ -238,13 +238,13 @@ class UserController extends Controller implements HasMiddleware
 
     /**
      * Download a CSV dump of database table
-     * 
+     *
      * This endpoint allows you to download a csv dump of database table for a single tenant.
-     * It"s a really useful endpoint, and you should play around 
+     * It"s a really useful endpoint, and you should play around
      * with it for a bit.
      * <aside class="notice">Supports csv 😎</aside>
-     * 
-     * @response status=200 scenario="success" 
+     *
+     * @response status=200 scenario="success"
      */
     public function csv(Request $request)
     {
@@ -269,13 +269,13 @@ class UserController extends Controller implements HasMiddleware
 
     /**
      * Download a Excel dump of database table
-     * 
+     *
      * This endpoint allows you to download a excel dump of database table for a single tenant.
-     * It"s a really useful endpoint, and you should play around 
+     * It"s a really useful endpoint, and you should play around
      * with it for a bit.
      * <aside class="notice">Supports xlsx 😎</aside>
-     * 
-     * @response status=200 scenario="success" 
+     *
+     * @response status=200 scenario="success"
      */
     public function excel(Request $request)
     {
@@ -309,13 +309,13 @@ class UserController extends Controller implements HasMiddleware
 
     /**
      * Download a PDF dump of database table
-     * 
+     *
      * This endpoint allows you to download a pdf dump of database table for a single tenant.
-     * It"s a really useful endpoint, and you should play around 
+     * It"s a really useful endpoint, and you should play around
      * with it for a bit.
      * <aside class="notice">Supports pdf 😎</aside>
-     * 
-     * @response status=200 scenario="success" 
+     *
+     * @response status=200 scenario="success"
      */
     public function pdf(Request $request)
     {

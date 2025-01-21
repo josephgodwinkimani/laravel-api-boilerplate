@@ -10,7 +10,7 @@ class UserTransformer extends Fractal\TransformerAbstract
 {
     /**
      * Summary of transform
-     * 
+     *
      * @param \App\Models\User|null $user
      * @return array
      */

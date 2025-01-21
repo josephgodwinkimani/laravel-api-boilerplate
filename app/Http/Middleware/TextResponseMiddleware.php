@@ -33,6 +33,7 @@ class TextResponseMiddleware
         $response->header("Content-Type", "application/text");
         $response->header("Access-Control-Expose-Headers", "*");
         $response->header("Access-Control-Allow-Credentials", "true");
+
         return $response;
     }
 }

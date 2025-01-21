@@ -1,0 +1,278 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/localhost"
+        }
+    ],
+    "info": {
+        "name": "Laravel",
+        "_postman_id": "f66abf83-b01e-425f-ac86-6e903b90738a",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Endpoints",
+            "description": "",
+            "item": [
+                {
+                    "name": "GET api\/user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "List all Users.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/users",
+                            "query": [
+                                {
+                                    "key": "cursor",
+                                    "value": "omnis",
+                                    "description": "Indicates where to start fetching results.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "previous",
+                                    "value": "et",
+                                    "description": "Indicates position of result to start fetching from.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "106316.263",
+                                    "description": "Indicates how many records you prefer to fetch.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/users?cursor=omnis&previous=et&limit=106316.263"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint allows you to list all users of a tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports json, xml, yaml, text \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        }
+                    ]
+                },
+                {
+                    "name": "Fetch details of one record",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/users\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/users\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "354267.220778",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint allows you to fetch a single user of a tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports text \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        }
+                    ]
+                },
+                {
+                    "name": "Download a CSV dump of database table",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/users\/export\/csv",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/users\/export\/csv"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint allows you to download a csv dump of database table for a single tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports csv \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        }
+                    ]
+                },
+                {
+                    "name": "Download a Excel dump of database table",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/users\/export\/excel",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/users\/export\/excel"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint allows you to download a excel dump of database table for a single tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports xlsx \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        }
+                    ]
+                },
+                {
+                    "name": "Download a PDF dump of database table",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/users\/export\/pdf",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/users\/export\/pdf"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint allows you to download a pdf dump of database table for a single tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports pdf \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "noauth"
+    }
+}

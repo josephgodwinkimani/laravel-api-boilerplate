@@ -1,0 +1,168 @@
+openapi: 3.0.3
+info:
+  title: Laravel
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost'
+paths:
+  /api/user:
+    get:
+      summary: ''
+      operationId: getApiUser
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/users:
+    get:
+      summary: 'List all Users.'
+      operationId: listAllUsers
+      description: "This endpoint allows you to list all users of a tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports json, xml, yaml, text 😎</aside>"
+      parameters:
+        -
+          in: query
+          name: cursor
+          description: 'Indicates where to start fetching results.'
+          example: omnis
+          required: false
+          schema:
+            type: string
+            description: 'Indicates where to start fetching results.'
+            example: omnis
+            nullable: false
+        -
+          in: query
+          name: previous
+          description: 'Indicates position of result to start fetching from.'
+          example: et
+          required: false
+          schema:
+            type: string
+            description: 'Indicates position of result to start fetching from.'
+            example: et
+            nullable: false
+        -
+          in: query
+          name: limit
+          description: 'Indicates how many records you prefer to fetch.'
+          example: 106316.263
+          required: false
+          schema:
+            type: number
+            description: 'Indicates how many records you prefer to fetch.'
+            example: 106316.263
+            nullable: false
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+      tags:
+        - Endpoints
+      security: []
+  '/api/users/{id}':
+    get:
+      summary: 'Fetch details of one record'
+      operationId: fetchDetailsOfOneRecord
+      description: "This endpoint allows you to fetch a single user of a tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports text 😎</aside>"
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'Optional parameter.'
+        required: true
+        schema:
+          type: number
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: 354267.220778
+  /api/users/export/csv:
+    get:
+      summary: 'Download a CSV dump of database table'
+      operationId: downloadACSVDumpOfDatabaseTable
+      description: "This endpoint allows you to download a csv dump of database table for a single tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports csv 😎</aside>"
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+      tags:
+        - Endpoints
+      security: []
+  /api/users/export/excel:
+    get:
+      summary: 'Download a Excel dump of database table'
+      operationId: downloadAExcelDumpOfDatabaseTable
+      description: "This endpoint allows you to download a excel dump of database table for a single tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports xlsx 😎</aside>"
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+      tags:
+        - Endpoints
+      security: []
+  /api/users/export/pdf:
+    get:
+      summary: 'Download a PDF dump of database table'
+      operationId: downloadAPDFDumpOfDatabaseTable
+      description: "This endpoint allows you to download a pdf dump of database table for a single tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports pdf 😎</aside>"
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+      tags:
+        - Endpoints
+      security: []
+tags:
+  -
+    name: Endpoints
+    description: ''

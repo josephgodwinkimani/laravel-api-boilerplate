@@ -24,7 +24,7 @@ class TenantService
 {
     /**
      * Summary of getTenant
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return Tenant|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
      */
@@ -33,6 +33,7 @@ class TenantService
         $subdomain = $request->query('subdomain');
         $tenant = Tenant::where('subdomain', $subdomain)->firstOrFail();
         Log::error($tenant);
+
         return $tenant;
     }
 }

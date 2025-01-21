@@ -33,6 +33,7 @@ class YamlResponseMiddleware
         $response->header("Content-Type", "application/x-yaml");
         $response->header("Access-Control-Expose-Headers", "*");
         $response->header("Access-Control-Allow-Credentials", "true");
+
         return $response;
     }
 }

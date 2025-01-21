@@ -89,6 +89,7 @@ class DataTransformService
         if ($type === "xml") {
             $xml = new SimpleXMLElement('<?xml version="1.0"?><data></data>');
             $this->array_to_xml($data, $xml);
+
             return $xml->asXML();
         }
 
@@ -181,6 +182,7 @@ class DataTransformService
         if ($type === "xml") {
             $xml = new SimpleXMLElement('<?xml version="1.0"?><data></data>');
             $this->array_to_xml($data, $xml);
+
             return $xml->asXML();
         }
 
