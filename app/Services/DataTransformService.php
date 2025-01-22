@@ -88,7 +88,14 @@ class DataTransformService
          */
         if ($type === "xml") {
             $xml = new SimpleXMLElement('<?xml version="1.0"?><data></data>');
-            $this->array_to_xml($data, $xml);
+            
+            // Convert array to XML directly
+            array_walk_recursive($data, function ($value, $key) use ($xml) {
+                $xml->addChild(
+                    $key,
+                    htmlspecialchars(strval($value))
+                );
+            });
 
             return $xml->asXML();
         }
@@ -181,7 +188,14 @@ class DataTransformService
          */
         if ($type === "xml") {
             $xml = new SimpleXMLElement('<?xml version="1.0"?><data></data>');
-            $this->array_to_xml($data, $xml);
+            
+            // Convert array to XML directly
+            array_walk_recursive($data, function ($value, $key) use ($xml) {
+                $xml->addChild(
+                    $key,
+                    htmlspecialchars(strval($value))
+                );
+            });
 
             return $xml->asXML();
         }
