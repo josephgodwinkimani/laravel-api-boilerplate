@@ -13,24 +13,21 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Permission;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-class Tenant extends Model
+class Role extends Model
 {
-    use HasFactory;
+    protected $fillable = ['name'];
 
-    protected $connection = 'hq';
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'subdomain',
-        'connection',
-    ];
-
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
+    }
 }

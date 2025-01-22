@@ -1,5 +1,6 @@
 includes:
-    - ./vendor/nunomaduro/larastan/extension.neon
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
 
 parameters:
     level: 4
@@ -9,4 +10,3 @@ parameters:
         - database
     ignoreErrors:
         - '#PHPDoc tag @var#'
-    checkMissingIterableValueType: false

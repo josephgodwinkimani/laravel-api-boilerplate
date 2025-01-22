@@ -1,0 +1,366 @@
+name: Roles
+description: |-
+
+  APIs for managing the Roles for users
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/roles
+    metadata:
+      groupName: Roles
+      groupDescription: |-
+
+        APIs for managing the Roles for users
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List all records'
+      description: |-
+        This endpoint allows you to list all roles of a tenant.
+        It's a really useful endpoint, and you should play around
+        with it for a bit.
+        <aside class='notice'>Supports json, xml, yaml, text 😎</aside>
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      cursor:
+        name: cursor
+        description: 'Indicates where to start fetching results.'
+        required: false
+        example: 18
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      previous:
+        name: previous
+        description: 'Indicates position of result to start fetching from.'
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      limit:
+        name: limit
+        description: 'Indicates how many records you prefer to fetch.'
+        required: false
+        example: 9
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanQueryParameters:
+      cursor: 18
+      previous: 2
+      limit: 9
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: ''
+        headers: []
+        description: success
+        custom: []
+      -
+        status: 403
+        content: '{"data": {"type": "user","error": "Forbidden","clientIp": "127.0.0.1","datetime": "2025-01-22 20:39:28"}}'
+        headers: []
+        description: forbidden
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/roles
+    metadata:
+      groupName: Roles
+      groupDescription: |-
+
+        APIs for managing the Roles for users
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Save a single record'
+      description: |-
+        This endpoint allows you to save a single record for a single tenant.
+        It's a really useful endpoint, and you should play around
+        with it for a bit.
+        <aside class='notice'>Supports json, xml, yaml 😎</aside>
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: ''
+        required: false
+        example: itaque
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      enabled:
+        name: enabled
+        description: ''
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      name: itaque
+      enabled: true
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: ''
+        headers: []
+        description: success
+        custom: []
+      -
+        status: 403
+        content: '{"data": {"type": "user","error": "Forbidden","clientIp": "127.0.0.1","datetime": "2025-01-22 20:39:28"}}'
+        headers: []
+        description: forbidden
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/v1/roles/{id}'
+    metadata:
+      groupName: Roles
+      groupDescription: |-
+
+        APIs for managing the Roles for users
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Fetch details of one record'
+      description: |-
+        This endpoint allows you to fetch a single role of a tenant.
+        It's a really useful endpoint, and you should play around
+        with it for a bit.
+        <aside class='notice'>Supports text 😎</aside>
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: ''
+        required: false
+        example: 12
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 12
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: ''
+        headers: []
+        description: success
+        custom: []
+      -
+        status: 403
+        content: '{"data": {"type": "user","error": "Forbidden","clientIp": "127.0.0.1","datetime": "2025-01-22 20:39:28"}}'
+        headers: []
+        description: forbidden
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PATCH
+    uri: 'api/v1/roles/{id}'
+    metadata:
+      groupName: Roles
+      groupDescription: |-
+
+        APIs for managing the Roles for users
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update a single record'
+      description: |-
+        This endpoint allows you to update a single record for a single tenant.
+        It's a really useful endpoint, and you should play around
+        with it for a bit.
+        <aside class='notice'>Supports xml 😎</aside>
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: ''
+        required: false
+        example: 51911765.313743
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 51911765.313743
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: ''
+        required: false
+        example: magni
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      enabled:
+        name: enabled
+        description: ''
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      name: magni
+      enabled: true
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: ''
+        headers: []
+        description: success
+        custom: []
+      -
+        status: 403
+        content: '{"data": {"type": "user","error": "Forbidden","clientIp": "127.0.0.1","datetime": "2025-01-22 20:39:28"}}'
+        headers: []
+        description: forbidden
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: 'api/v1/roles/assign/{user}'
+    metadata:
+      groupName: Roles
+      groupDescription: |-
+
+        APIs for managing the Roles for users
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Assign a role to a user'
+      description: |-
+        This endpoint allows you to assign a role to existing user for a single tenant.
+        It's a really useful endpoint, and you should play around
+        with it for a bit.
+        <aside class='notice'>Supports json, xml, yaml 😎</aside>
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      user:
+        name: user
+        description: ''
+        required: false
+        example: voluptate
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      user: voluptate
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      role:
+        name: role
+        description: ''
+        required: false
+        example: et
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      role: et
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: ''
+        headers: []
+        description: success
+        custom: []
+      -
+        status: 403
+        content: '{"data": {"type": "user","error": "Forbidden","clientIp": "127.0.0.1","datetime": "2025-01-22 20:39:28"}}'
+        headers: []
+        description: forbidden
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

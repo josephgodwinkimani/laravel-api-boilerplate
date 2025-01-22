@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Laravel",
-        "_postman_id": "f66abf83-b01e-425f-ac86-6e903b90738a",
+        "_postman_id": "dd844aee-afa8-413d-80ad-5d3524ea6a25",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -20,13 +20,105 @@
             "description": "",
             "item": [
                 {
-                    "name": "GET api\/user",
+                    "name": "GET api\/health",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/user",
+                            "path": "api\/health",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/user"
+                            "raw": "{{baseUrl}}\/api\/health"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "must-revalidate, no-cache, no-store, post-check=0, pre-check=0, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"finishedAt\":1737570431,\"checkResults\":[{\"name\":\"hq\",\"label\":\"Hq\",\"notificationMessage\":\"\",\"shortSummary\":\"Ok\",\"status\":\"ok\",\"meta\":{\"connection_name\":\"hq\"}},{\"name\":\"branch1\",\"label\":\"Branch1\",\"notificationMessage\":\"\",\"shortSummary\":\"Ok\",\"status\":\"ok\",\"meta\":{\"connection_name\":\"branch1\"}},{\"name\":\"DatabaseConnectionCount\",\"label\":\"Database Connection Count\",\"notificationMessage\":\"\",\"shortSummary\":\"4 connections\",\"status\":\"ok\",\"meta\":{\"connection_count\":4}},{\"name\":\"Schedule\",\"label\":\"Schedule\",\"notificationMessage\":\"The schedule did not run yet.\",\"shortSummary\":\"Failed\",\"status\":\"failed\",\"meta\":[]},{\"name\":\"Queue\",\"label\":\"Queue\",\"notificationMessage\":\"Queue jobs running failed. Check meta for more information.\",\"shortSummary\":\"Failed\",\"status\":\"failed\",\"meta\":[\"The `default` queue did not run yet.\"]},{\"name\":\"OptimizedApp\",\"label\":\"Optimized App\",\"notificationMessage\":\"Configs are not cached.\",\"shortSummary\":\"Failed\",\"status\":\"failed\",\"meta\":[]},{\"name\":\"Cache\",\"label\":\"Cache\",\"notificationMessage\":\"\",\"shortSummary\":\"Ok\",\"status\":\"ok\",\"meta\":{\"driver\":\"database\"}},{\"name\":\"Environment\",\"label\":\"Environment\",\"notificationMessage\":\"The environment was expected to be `production`, but actually was `local`\",\"shortSummary\":\"local\",\"status\":\"failed\",\"meta\":{\"actual\":\"local\",\"expected\":\"production\"}},{\"name\":\"Dashboard\",\"label\":\"Dashboard\",\"notificationMessage\":\"Pinging Dashboard failed.\",\"shortSummary\":\"Unreachable\",\"status\":\"failed\",\"meta\":[]}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Register New User",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"ex\",\"email\":\"gbode@example.net\",\"phone\":\"incidunt\",\"password\":\"rtF.Q%gr4a\",\"enabled\":false,\"password_confirmation\":\"praesentium\"}"
+                        },
+                        "description": "This endpoint allows you to register new user for a single tenant.\n\n<aside class='notice'>Supports json, xml, yaml \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/login",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/login"
                         },
                         "method": "GET",
                         "header": [
@@ -62,38 +154,88 @@
                                 }
                             ],
                             "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "body": "{\"data\":{\"type\":\"user\",\"error\":\"Unauthorised\",\"clientIp\":\"127.0.0.1\",\"datetime\":\"2025-01-22 21:27:11\"}}",
                             "name": ""
                         }
                     ]
                 },
                 {
-                    "name": "List all Users.",
+                    "name": "Authenticate Existing User",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/users",
+                            "path": "api\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"phone\":\"suscipit\",\"password\":\"Oes_[a-h>4k!lEeD(}\"}"
+                        },
+                        "description": "This endpoint allows you to authenticates existing user for a single tenant.\n\n<aside class='notice'>Supports json, xml, yaml \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Permissions",
+            "description": "\nAPIs for managing the Permissions for users",
+            "item": [
+                {
+                    "name": "List all records",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/permissions",
                             "query": [
                                 {
                                     "key": "cursor",
-                                    "value": "omnis",
+                                    "value": "11",
                                     "description": "Indicates where to start fetching results.",
                                     "disabled": false
                                 },
                                 {
                                     "key": "previous",
-                                    "value": "et",
+                                    "value": "15",
                                     "description": "Indicates position of result to start fetching from.",
                                     "disabled": false
                                 },
                                 {
                                     "key": "limit",
-                                    "value": "106316.263",
+                                    "value": "5",
                                     "description": "Indicates how many records you prefer to fetch.",
                                     "disabled": false
                                 }
                             ],
-                            "raw": "{{baseUrl}}\/api\/users?cursor=omnis&previous=et&limit=106316.263"
+                            "raw": "{{baseUrl}}\/api\/v1\/permissions?cursor=11&previous=15&limit=5"
                         },
                         "method": "GET",
                         "header": [
@@ -107,7 +249,7 @@
                             }
                         ],
                         "body": null,
-                        "description": "This endpoint allows you to list all users of a tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports json, xml, yaml, text \ud83d\ude0e<\/aside>",
+                        "description": "This endpoint allows you to list all permissions of a tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports json, xml, yaml, text \ud83d\ude0e<\/aside>",
                         "auth": {
                             "type": "noauth"
                         }
@@ -118,6 +260,56 @@
                             "code": 200,
                             "body": "",
                             "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
+                        }
+                    ]
+                },
+                {
+                    "name": "Save a single record",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/permissions",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/permissions"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"unde\",\"enabled\":false}"
+                        },
+                        "description": "This endpoint allows you to save a single record for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports json, xml, yaml \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
                         }
                     ]
                 },
@@ -126,14 +318,14 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/users\/:id",
+                            "path": "api\/v1\/permissions\/:id",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/users\/:id",
+                            "raw": "{{baseUrl}}\/api\/v1\/permissions\/:id",
                             "variable": [
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "354267.220778",
+                                    "value": "4",
                                     "description": ""
                                 }
                             ]
@@ -150,7 +342,7 @@
                             }
                         ],
                         "body": null,
-                        "description": "This endpoint allows you to fetch a single user of a tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports text \ud83d\ude0e<\/aside>",
+                        "description": "This endpoint allows you to fetch a single permission of a tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports text \ud83d\ude0e<\/aside>",
                         "auth": {
                             "type": "noauth"
                         }
@@ -161,17 +353,106 @@
                             "code": 200,
                             "body": "",
                             "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
                         }
                     ]
                 },
                 {
-                    "name": "Download a CSV dump of database table",
+                    "name": "Assign a permission to a role",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/users\/export\/csv",
+                            "path": "api\/v1\/permissions\/assign\/:permission",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/users\/export\/csv"
+                            "raw": "{{baseUrl}}\/api\/v1\/permissions\/assign\/:permission",
+                            "variable": [
+                                {
+                                    "id": "permission",
+                                    "key": "permission",
+                                    "value": "ut",
+                                    "description": ""
+                                },
+                                {
+                                    "id": "role",
+                                    "key": "role",
+                                    "value": "6",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"permission\":\"ut\"}"
+                        },
+                        "description": "This endpoint allows you to assign a permission to existing role for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports json, xml, yaml \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Roles",
+            "description": "\nAPIs for managing the Roles for users",
+            "item": [
+                {
+                    "name": "List all records",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/roles",
+                            "query": [
+                                {
+                                    "key": "cursor",
+                                    "value": "18",
+                                    "description": "Indicates where to start fetching results.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "previous",
+                                    "value": "2",
+                                    "description": "Indicates position of result to start fetching from.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "9",
+                                    "description": "Indicates how many records you prefer to fetch.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/roles?cursor=18&previous=2&limit=9"
                         },
                         "method": "GET",
                         "header": [
@@ -185,7 +466,7 @@
                             }
                         ],
                         "body": null,
-                        "description": "This endpoint allows you to download a csv dump of database table for a single tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports csv \ud83d\ude0e<\/aside>",
+                        "description": "This endpoint allows you to list all roles of a tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports json, xml, yaml, text \ud83d\ude0e<\/aside>",
                         "auth": {
                             "type": "noauth"
                         }
@@ -196,17 +477,75 @@
                             "code": 200,
                             "body": "",
                             "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
                         }
                     ]
                 },
                 {
-                    "name": "Download a Excel dump of database table",
+                    "name": "Save a single record",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/users\/export\/excel",
+                            "path": "api\/v1\/roles",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/users\/export\/excel"
+                            "raw": "{{baseUrl}}\/api\/v1\/roles"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"itaque\",\"enabled\":true}"
+                        },
+                        "description": "This endpoint allows you to save a single record for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports json, xml, yaml \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
+                        }
+                    ]
+                },
+                {
+                    "name": "Fetch details of one record",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/roles\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/roles\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "12",
+                                    "description": ""
+                                }
+                            ]
                         },
                         "method": "GET",
                         "header": [
@@ -220,7 +559,7 @@
                             }
                         ],
                         "body": null,
-                        "description": "This endpoint allows you to download a excel dump of database table for a single tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports xlsx \ud83d\ude0e<\/aside>",
+                        "description": "This endpoint allows you to fetch a single role of a tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports text \ud83d\ude0e<\/aside>",
                         "auth": {
                             "type": "noauth"
                         }
@@ -231,17 +570,152 @@
                             "code": 200,
                             "body": "",
                             "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
                         }
                     ]
                 },
                 {
-                    "name": "Download a PDF dump of database table",
+                    "name": "Update a single record",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/users\/export\/pdf",
+                            "path": "api\/v1\/roles\/:id",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/users\/export\/pdf"
+                            "raw": "{{baseUrl}}\/api\/v1\/roles\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "51911765.313743",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"magni\",\"enabled\":true}"
+                        },
+                        "description": "This endpoint allows you to update a single record for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports xml \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
+                        }
+                    ]
+                },
+                {
+                    "name": "Assign a role to a user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/roles\/assign\/:user",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/roles\/assign\/:user",
+                            "variable": [
+                                {
+                                    "id": "user",
+                                    "key": "user",
+                                    "value": "voluptate",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"role\":\"et\"}"
+                        },
+                        "description": "This endpoint allows you to assign a role to existing user for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports json, xml, yaml \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Users",
+            "description": "\nAPIs for managing the User accounts",
+            "item": [
+                {
+                    "name": "List all records",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users",
+                            "query": [
+                                {
+                                    "key": "cursor",
+                                    "value": "18",
+                                    "description": "Indicates where to start fetching results.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "previous",
+                                    "value": "18",
+                                    "description": "Indicates position of result to start fetching from.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "13",
+                                    "description": "Indicates how many records you prefer to fetch.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/users?cursor=18&previous=18&limit=13"
                         },
                         "method": "GET",
                         "header": [
@@ -255,7 +729,7 @@
                             }
                         ],
                         "body": null,
-                        "description": "This endpoint allows you to download a pdf dump of database table for a single tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports pdf \ud83d\ude0e<\/aside>",
+                        "description": "This endpoint allows you to list all users of a tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports json, xml, yaml, text \ud83d\ude0e<\/aside>",
                         "auth": {
                             "type": "noauth"
                         }
@@ -266,6 +740,280 @@
                             "code": 200,
                             "body": "",
                             "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
+                        }
+                    ]
+                },
+                {
+                    "name": "Save a single record",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/users"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"labore\",\"email\":\"milo.bartoletti@example.net\",\"phone\":\"et\",\"password\":\"lgbGeosR%<`w!p1W\",\"enabled\":true,\"password_confirmation\":\"quia\"}"
+                        },
+                        "description": "This endpoint allows you to save a single record for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports json, xml, yaml \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
+                        }
+                    ]
+                },
+                {
+                    "name": "Fetch details of one record",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/users\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "7",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint allows you to fetch a single user of a tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports text \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a single record",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/users\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"consequuntur\",\"email\":\"barton.asia@example.org\",\"phone\":\"perferendis\",\"password\":\"gJuC^AX!:jm]\",\"enabled\":false,\"password_confirmation\":\"sed\"}"
+                        },
+                        "description": "This endpoint allows you to update a single record for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports xml \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
+                        }
+                    ]
+                },
+                {
+                    "name": "Download a CSV dump of records",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users\/export\/csv",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/users\/export\/csv"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint allows you to download a csv dump of user records for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports csv \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
+                        }
+                    ]
+                },
+                {
+                    "name": "Download a Excel dump of records",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users\/export\/excel",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/users\/export\/excel"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint allows you to download a excel dump of user records for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports xlsx \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
+                        }
+                    ]
+                },
+                {
+                    "name": "Download a PDF dump of records",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users\/export\/pdf",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/users\/export\/pdf"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint allows you to download a pdf dump of user records for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports pdf \ud83d\ude0e<\/aside>",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"data\": {\"type\": \"user\",\"error\": \"Forbidden\",\"clientIp\": \"127.0.0.1\",\"datetime\": \"2025-01-22 20:39:28\"}}",
+                            "name": "forbidden"
                         }
                     ]
                 }

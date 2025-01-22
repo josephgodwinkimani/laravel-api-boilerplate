@@ -4,7 +4,157 @@ endpoints:
   -
     httpMethods:
       - GET
-    uri: api/user
+    uri: api/health
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"finishedAt":1737570431,"checkResults":[{"name":"hq","label":"Hq","notificationMessage":"","shortSummary":"Ok","status":"ok","meta":{"connection_name":"hq"}},{"name":"branch1","label":"Branch1","notificationMessage":"","shortSummary":"Ok","status":"ok","meta":{"connection_name":"branch1"}},{"name":"DatabaseConnectionCount","label":"Database Connection Count","notificationMessage":"","shortSummary":"4 connections","status":"ok","meta":{"connection_count":4}},{"name":"Schedule","label":"Schedule","notificationMessage":"The schedule did not run yet.","shortSummary":"Failed","status":"failed","meta":[]},{"name":"Queue","label":"Queue","notificationMessage":"Queue jobs running failed. Check meta for more information.","shortSummary":"Failed","status":"failed","meta":["The `default` queue did not run yet."]},{"name":"OptimizedApp","label":"Optimized App","notificationMessage":"Configs are not cached.","shortSummary":"Failed","status":"failed","meta":[]},{"name":"Cache","label":"Cache","notificationMessage":"","shortSummary":"Ok","status":"ok","meta":{"driver":"database"}},{"name":"Environment","label":"Environment","notificationMessage":"The environment was expected to be `production`, but actually was `local`","shortSummary":"local","status":"failed","meta":{"actual":"local","expected":"production"}},{"name":"Dashboard","label":"Dashboard","notificationMessage":"Pinging Dashboard failed.","shortSummary":"Unreachable","status":"failed","meta":[]}]}'
+        headers:
+          cache-control: 'must-revalidate, no-cache, no-store, post-check=0, pre-check=0, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/register
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Register New User'
+      description: |-
+        This endpoint allows you to register new user for a single tenant.
+
+        <aside class='notice'>Supports json, xml, yaml 😎</aside>
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: ''
+        required: false
+        example: ex
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      email:
+        name: email
+        description: ''
+        required: false
+        example: gbode@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      phone:
+        name: phone
+        description: ''
+        required: false
+        example: incidunt
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      password:
+        name: password
+        description: ''
+        required: false
+        example: rtF.Q%gr4a
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      enabled:
+        name: enabled
+        description: ''
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      password_confirmation:
+        name: password_confirmation
+        description: ''
+        required: false
+        example: praesentium
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      name: ex
+      email: gbode@example.net
+      phone: incidunt
+      password: rtF.Q%gr4a
+      enabled: false
+      password_confirmation: praesentium
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: ''
+        headers: []
+        description: success
+        custom: []
+      -
+        status: 403
+        content: '{"data": {"type": "user","error": "Forbidden","clientIp": "127.0.0.1","datetime": "2025-01-22 20:39:28"}}'
+        headers: []
+        description: forbidden
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/login
     metadata:
       groupName: Endpoints
       groupDescription: ''
@@ -27,7 +177,7 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"message":"Unauthenticated."}'
+        content: '{"data":{"type":"user","error":"Unauthorised","clientIp":"127.0.0.1","datetime":"2025-01-22 21:27:11"}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -42,19 +192,18 @@ endpoints:
     custom: []
   -
     httpMethods:
-      - GET
-    uri: api/users
+      - POST
+    uri: api/login
     metadata:
       groupName: Endpoints
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'List all Users.'
+      title: 'Authenticate Existing User'
       description: |-
-        This endpoint allows you to list all users of a tenant.
-        It"s a really useful endpoint, and you should play around
-        with it for a bit.
-        <aside class="notice">Supports json, xml, yaml, text 😎</aside>
+        This endpoint allows you to authenticates existing user for a single tenant.
+
+        <aside class='notice'>Supports json, xml, yaml 😎</aside>
       authenticated: false
       custom: []
     headers:
@@ -62,94 +211,32 @@ endpoints:
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
-    queryParameters:
-      cursor:
-        name: cursor
-        description: 'Indicates where to start fetching results.'
-        required: false
-        example: omnis
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-      previous:
-        name: previous
-        description: 'Indicates position of result to start fetching from.'
-        required: false
-        example: et
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-      limit:
-        name: limit
-        description: 'Indicates how many records you prefer to fetch.'
-        required: false
-        example: 106316.263
-        type: number
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanQueryParameters:
-      cursor: omnis
-      previous: et
-      limit: 106316.263
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: ''
-        headers: []
-        description: success
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/users/{id}'
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Fetch details of one record'
-      description: |-
-        This endpoint allows you to fetch a single user of a tenant.
-        It"s a really useful endpoint, and you should play around
-        with it for a bit.
-        <aside class="notice">Supports text 😎</aside>
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      phone:
+        name: phone
         description: ''
         required: false
-        example: 354267.220778
-        type: number
+        example: suscipit
+        type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
-    cleanUrlParameters:
-      id: 354267.220778
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
+      password:
+        name: password
+        description: ''
+        required: false
+        example: 'Oes_[a-h>4k!lEeD(}'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      phone: suscipit
+      password: 'Oes_[a-h>4k!lEeD(}'
     fileParameters: []
     responses:
       -
@@ -158,125 +245,11 @@ endpoints:
         headers: []
         description: success
         custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: api/users/export/csv
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Download a CSV dump of database table'
-      description: |-
-        This endpoint allows you to download a csv dump of database table for a single tenant.
-        It"s a really useful endpoint, and you should play around
-        with it for a bit.
-        <aside class="notice">Supports csv 😎</aside>
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
       -
-        status: 200
-        content: ''
+        status: 403
+        content: '{"data": {"type": "user","error": "Forbidden","clientIp": "127.0.0.1","datetime": "2025-01-22 20:39:28"}}'
         headers: []
-        description: success
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: api/users/export/excel
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Download a Excel dump of database table'
-      description: |-
-        This endpoint allows you to download a excel dump of database table for a single tenant.
-        It"s a really useful endpoint, and you should play around
-        with it for a bit.
-        <aside class="notice">Supports xlsx 😎</aside>
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: ''
-        headers: []
-        description: success
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: api/users/export/pdf
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Download a PDF dump of database table'
-      description: |-
-        This endpoint allows you to download a pdf dump of database table for a single tenant.
-        It"s a really useful endpoint, and you should play around
-        with it for a bit.
-        <aside class="notice">Supports pdf 😎</aside>
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: ''
-        headers: []
-        description: success
+        description: forbidden
         custom: []
     responseFields: []
     auth: []

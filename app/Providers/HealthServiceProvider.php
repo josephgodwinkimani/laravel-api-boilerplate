@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the laravel-api-boilerplate project.
+ *
+ * (c) Joseph Godwin Kimani <josephgodwinkimani@gmx.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
@@ -45,11 +56,8 @@ class HealthServiceProvider extends ServiceProvider
             QueueCheck::new(),
             OptimizedAppCheck::new(),
             CacheCheck::new(),
-            PingCheck::new()->url(env("PING_CLIENT", "https://x.com"))->retryTimes(3)->name("Dashboard"),
-            PingCheck::new()->url(env("PING_CLIENT1", "https://hotjar.com/saas/client123"))->retryTimes(3)->name("Analytics"),
-            PingCheck::new()->url(env("PING_CLIENT2", "https://server123.json"))->retryTimes(3)->name("AWS"),
             EnvironmentCheck::new(),
-
+            PingCheck::new()->url(env('PING_CLIENT', 'https://x.com'))->retryTimes(3)->name('Dashboard'),
         ]);
     }
 }

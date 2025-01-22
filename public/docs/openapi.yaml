@@ -7,10 +7,282 @@ servers:
   -
     url: 'http://localhost'
 paths:
-  /api/user:
+  /api/health:
     get:
       summary: ''
-      operationId: getApiUser
+      operationId: getApiHealth
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  finishedAt: 1737570431
+                  checkResults:
+                    -
+                      name: hq
+                      label: Hq
+                      notificationMessage: ''
+                      shortSummary: Ok
+                      status: ok
+                      meta:
+                        connection_name: hq
+                    -
+                      name: branch1
+                      label: Branch1
+                      notificationMessage: ''
+                      shortSummary: Ok
+                      status: ok
+                      meta:
+                        connection_name: branch1
+                    -
+                      name: DatabaseConnectionCount
+                      label: 'Database Connection Count'
+                      notificationMessage: ''
+                      shortSummary: '4 connections'
+                      status: ok
+                      meta:
+                        connection_count: 4
+                    -
+                      name: Schedule
+                      label: Schedule
+                      notificationMessage: 'The schedule did not run yet.'
+                      shortSummary: Failed
+                      status: failed
+                      meta: []
+                    -
+                      name: Queue
+                      label: Queue
+                      notificationMessage: 'Queue jobs running failed. Check meta for more information.'
+                      shortSummary: Failed
+                      status: failed
+                      meta:
+                        - 'The `default` queue did not run yet.'
+                    -
+                      name: OptimizedApp
+                      label: 'Optimized App'
+                      notificationMessage: 'Configs are not cached.'
+                      shortSummary: Failed
+                      status: failed
+                      meta: []
+                    -
+                      name: Cache
+                      label: Cache
+                      notificationMessage: ''
+                      shortSummary: Ok
+                      status: ok
+                      meta:
+                        driver: database
+                    -
+                      name: Environment
+                      label: Environment
+                      notificationMessage: 'The environment was expected to be `production`, but actually was `local`'
+                      shortSummary: local
+                      status: failed
+                      meta:
+                        actual: local
+                        expected: production
+                    -
+                      name: Dashboard
+                      label: Dashboard
+                      notificationMessage: 'Pinging Dashboard failed.'
+                      shortSummary: Unreachable
+                      status: failed
+                      meta: []
+                properties:
+                  finishedAt:
+                    type: integer
+                    example: 1737570431
+                  checkResults:
+                    type: array
+                    example:
+                      -
+                        name: hq
+                        label: Hq
+                        notificationMessage: ''
+                        shortSummary: Ok
+                        status: ok
+                        meta:
+                          connection_name: hq
+                      -
+                        name: branch1
+                        label: Branch1
+                        notificationMessage: ''
+                        shortSummary: Ok
+                        status: ok
+                        meta:
+                          connection_name: branch1
+                      -
+                        name: DatabaseConnectionCount
+                        label: 'Database Connection Count'
+                        notificationMessage: ''
+                        shortSummary: '4 connections'
+                        status: ok
+                        meta:
+                          connection_count: 4
+                      -
+                        name: Schedule
+                        label: Schedule
+                        notificationMessage: 'The schedule did not run yet.'
+                        shortSummary: Failed
+                        status: failed
+                        meta: []
+                      -
+                        name: Queue
+                        label: Queue
+                        notificationMessage: 'Queue jobs running failed. Check meta for more information.'
+                        shortSummary: Failed
+                        status: failed
+                        meta:
+                          - 'The `default` queue did not run yet.'
+                      -
+                        name: OptimizedApp
+                        label: 'Optimized App'
+                        notificationMessage: 'Configs are not cached.'
+                        shortSummary: Failed
+                        status: failed
+                        meta: []
+                      -
+                        name: Cache
+                        label: Cache
+                        notificationMessage: ''
+                        shortSummary: Ok
+                        status: ok
+                        meta:
+                          driver: database
+                      -
+                        name: Environment
+                        label: Environment
+                        notificationMessage: 'The environment was expected to be `production`, but actually was `local`'
+                        shortSummary: local
+                        status: failed
+                        meta:
+                          actual: local
+                          expected: production
+                      -
+                        name: Dashboard
+                        label: Dashboard
+                        notificationMessage: 'Pinging Dashboard failed.'
+                        shortSummary: Unreachable
+                        status: failed
+                        meta: []
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: hq
+                        label:
+                          type: string
+                          example: Hq
+                        notificationMessage:
+                          type: string
+                          example: ''
+                        shortSummary:
+                          type: string
+                          example: Ok
+                        status:
+                          type: string
+                          example: ok
+                        meta:
+                          type: object
+                          properties:
+                            connection_name:
+                              type: string
+                              example: hq
+      tags:
+        - Endpoints
+      security: []
+  /api/register:
+    post:
+      summary: 'Register New User'
+      operationId: registerNewUser
+      description: "This endpoint allows you to register new user for a single tenant.\n\n<aside class='notice'>Supports json, xml, yaml 😎</aside>"
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: ex
+                  nullable: false
+                email:
+                  type: string
+                  description: ''
+                  example: gbode@example.net
+                  nullable: false
+                phone:
+                  type: string
+                  description: ''
+                  example: incidunt
+                  nullable: false
+                password:
+                  type: string
+                  description: ''
+                  example: rtF.Q%gr4a
+                  nullable: false
+                enabled:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+                password_confirmation:
+                  type: string
+                  description: ''
+                  example: praesentium
+                  nullable: false
+      security: []
+  /api/login:
+    get:
+      summary: ''
+      operationId: getApiLogin
       description: ''
       parameters: []
       responses:
@@ -21,69 +293,34 @@ paths:
               schema:
                 type: object
                 example:
-                  message: Unauthenticated.
+                  data:
+                    type: user
+                    error: Unauthorised
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 21:27:11'
                 properties:
-                  message:
-                    type: string
-                    example: Unauthenticated.
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Unauthorised
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 21:27:11'
       tags:
         - Endpoints
       security: []
-  /api/users:
-    get:
-      summary: 'List all Users.'
-      operationId: listAllUsers
-      description: "This endpoint allows you to list all users of a tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports json, xml, yaml, text 😎</aside>"
-      parameters:
-        -
-          in: query
-          name: cursor
-          description: 'Indicates where to start fetching results.'
-          example: omnis
-          required: false
-          schema:
-            type: string
-            description: 'Indicates where to start fetching results.'
-            example: omnis
-            nullable: false
-        -
-          in: query
-          name: previous
-          description: 'Indicates position of result to start fetching from.'
-          example: et
-          required: false
-          schema:
-            type: string
-            description: 'Indicates position of result to start fetching from.'
-            example: et
-            nullable: false
-        -
-          in: query
-          name: limit
-          description: 'Indicates how many records you prefer to fetch.'
-          example: 106316.263
-          required: false
-          schema:
-            type: number
-            description: 'Indicates how many records you prefer to fetch.'
-            example: 106316.263
-            nullable: false
-      responses:
-        200:
-          description: success
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: ''
-      tags:
-        - Endpoints
-      security: []
-  '/api/users/{id}':
-    get:
-      summary: 'Fetch details of one record'
-      operationId: fetchDetailsOfOneRecord
-      description: "This endpoint allows you to fetch a single user of a tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports text 😎</aside>"
+    post:
+      summary: 'Authenticate Existing User'
+      operationId: authenticateExistingUser
+      description: "This endpoint allows you to authenticates existing user for a single tenant.\n\n<aside class='notice'>Supports json, xml, yaml 😎</aside>"
       parameters: []
       responses:
         200:
@@ -93,8 +330,237 @@ paths:
               schema:
                 type: string
                 example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
       tags:
         - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: string
+                  description: ''
+                  example: suscipit
+                  nullable: false
+                password:
+                  type: string
+                  description: ''
+                  example: 'Oes_[a-h>4k!lEeD(}'
+                  nullable: false
+      security: []
+  /api/v1/permissions:
+    get:
+      summary: 'List all records'
+      operationId: listAllRecords
+      description: "This endpoint allows you to list all permissions of a tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports json, xml, yaml, text 😎</aside>"
+      parameters:
+        -
+          in: query
+          name: cursor
+          description: 'Indicates where to start fetching results.'
+          example: 11
+          required: false
+          schema:
+            type: integer
+            description: 'Indicates where to start fetching results.'
+            example: 11
+            nullable: false
+        -
+          in: query
+          name: previous
+          description: 'Indicates position of result to start fetching from.'
+          example: 15
+          required: false
+          schema:
+            type: integer
+            description: 'Indicates position of result to start fetching from.'
+            example: 15
+            nullable: false
+        -
+          in: query
+          name: limit
+          description: 'Indicates how many records you prefer to fetch.'
+          example: 5
+          required: false
+          schema:
+            type: integer
+            description: 'Indicates how many records you prefer to fetch.'
+            example: 5
+            nullable: false
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
+      tags:
+        - Permissions
+      security: []
+    post:
+      summary: 'Save a single record'
+      operationId: saveASingleRecord
+      description: "This endpoint allows you to save a single record for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports json, xml, yaml 😎</aside>"
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
+      tags:
+        - Permissions
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: unde
+                  nullable: false
+                enabled:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+      security: []
+  '/api/v1/permissions/{id}':
+    get:
+      summary: 'Fetch details of one record'
+      operationId: fetchDetailsOfOneRecord
+      description: "This endpoint allows you to fetch a single permission of a tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports text 😎</aside>"
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
+      tags:
+        - Permissions
       security: []
     parameters:
       -
@@ -103,19 +569,19 @@ paths:
         description: 'Optional parameter.'
         required: true
         schema:
-          type: number
+          type: integer
         examples:
           omitted:
             summary: 'When the value is omitted'
             value: ''
           present:
             summary: 'When the value is present'
-            value: 354267.220778
-  /api/users/export/csv:
-    get:
-      summary: 'Download a CSV dump of database table'
-      operationId: downloadACSVDumpOfDatabaseTable
-      description: "This endpoint allows you to download a csv dump of database table for a single tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports csv 😎</aside>"
+            value: 4
+  '/api/v1/permissions/assign/{permission}':
+    post:
+      summary: 'Assign a permission to a role'
+      operationId: assignAPermissionToARole
+      description: "This endpoint allows you to assign a permission to existing role for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports json, xml, yaml 😎</aside>"
       parameters: []
       responses:
         200:
@@ -125,15 +591,111 @@ paths:
               schema:
                 type: string
                 example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
       tags:
-        - Endpoints
+        - Permissions
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                permission:
+                  type: string
+                  description: ''
+                  example: ut
+                  nullable: false
       security: []
-  /api/users/export/excel:
+    parameters:
+      -
+        in: path
+        name: permission
+        description: ''
+        example: ut
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: role
+        description: 'Optional parameter.'
+        required: true
+        schema:
+          type: integer
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: 6
+  /api/v1/roles:
     get:
-      summary: 'Download a Excel dump of database table'
-      operationId: downloadAExcelDumpOfDatabaseTable
-      description: "This endpoint allows you to download a excel dump of database table for a single tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports xlsx 😎</aside>"
-      parameters: []
+      summary: 'List all records'
+      operationId: listAllRecords
+      description: "This endpoint allows you to list all roles of a tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports json, xml, yaml, text 😎</aside>"
+      parameters:
+        -
+          in: query
+          name: cursor
+          description: 'Indicates where to start fetching results.'
+          example: 18
+          required: false
+          schema:
+            type: integer
+            description: 'Indicates where to start fetching results.'
+            example: 18
+            nullable: false
+        -
+          in: query
+          name: previous
+          description: 'Indicates position of result to start fetching from.'
+          example: 2
+          required: false
+          schema:
+            type: integer
+            description: 'Indicates position of result to start fetching from.'
+            example: 2
+            nullable: false
+        -
+          in: query
+          name: limit
+          description: 'Indicates how many records you prefer to fetch.'
+          example: 9
+          required: false
+          schema:
+            type: integer
+            description: 'Indicates how many records you prefer to fetch.'
+            example: 9
+            nullable: false
       responses:
         200:
           description: success
@@ -142,14 +704,41 @@ paths:
               schema:
                 type: string
                 example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
       tags:
-        - Endpoints
+        - Roles
       security: []
-  /api/users/export/pdf:
-    get:
-      summary: 'Download a PDF dump of database table'
-      operationId: downloadAPDFDumpOfDatabaseTable
-      description: "This endpoint allows you to download a pdf dump of database table for a single tenant.\nIt\"s a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class=\"notice\">Supports pdf 😎</aside>"
+    post:
+      summary: 'Save a single record'
+      operationId: saveASingleRecord
+      description: "This endpoint allows you to save a single record for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports json, xml, yaml 😎</aside>"
       parameters: []
       responses:
         200:
@@ -159,10 +748,692 @@ paths:
               schema:
                 type: string
                 example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
       tags:
-        - Endpoints
+        - Roles
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: itaque
+                  nullable: false
+                enabled:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: false
+      security: []
+  '/api/v1/roles/{id}':
+    get:
+      summary: 'Fetch details of one record'
+      operationId: fetchDetailsOfOneRecord
+      description: "This endpoint allows you to fetch a single role of a tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports text 😎</aside>"
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
+      tags:
+        - Roles
+      security: []
+    patch:
+      summary: 'Update a single record'
+      operationId: updateASingleRecord
+      description: "This endpoint allows you to update a single record for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports xml 😎</aside>"
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
+      tags:
+        - Roles
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: magni
+                  nullable: false
+                enabled:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: false
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'Optional parameter.'
+        required: true
+        schema:
+          type: integer
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: 12
+  '/api/v1/roles/assign/{user}':
+    post:
+      summary: 'Assign a role to a user'
+      operationId: assignARoleToAUser
+      description: "This endpoint allows you to assign a role to existing user for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports json, xml, yaml 😎</aside>"
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
+      tags:
+        - Roles
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: string
+                  description: ''
+                  example: et
+                  nullable: false
+      security: []
+    parameters:
+      -
+        in: path
+        name: user
+        description: 'Optional parameter.'
+        required: true
+        schema:
+          type: string
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: voluptate
+  /api/v1/users:
+    get:
+      summary: 'List all records'
+      operationId: listAllRecords
+      description: "This endpoint allows you to list all users of a tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports json, xml, yaml, text 😎</aside>"
+      parameters:
+        -
+          in: query
+          name: cursor
+          description: 'Indicates where to start fetching results.'
+          example: 18
+          required: false
+          schema:
+            type: integer
+            description: 'Indicates where to start fetching results.'
+            example: 18
+            nullable: false
+        -
+          in: query
+          name: previous
+          description: 'Indicates position of result to start fetching from.'
+          example: 18
+          required: false
+          schema:
+            type: integer
+            description: 'Indicates position of result to start fetching from.'
+            example: 18
+            nullable: false
+        -
+          in: query
+          name: limit
+          description: 'Indicates how many records you prefer to fetch.'
+          example: 13
+          required: false
+          schema:
+            type: integer
+            description: 'Indicates how many records you prefer to fetch.'
+            example: 13
+            nullable: false
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
+      tags:
+        - Users
+      security: []
+    post:
+      summary: 'Save a single record'
+      operationId: saveASingleRecord
+      description: "This endpoint allows you to save a single record for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports json, xml, yaml 😎</aside>"
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
+      tags:
+        - Users
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: labore
+                  nullable: false
+                email:
+                  type: string
+                  description: ''
+                  example: milo.bartoletti@example.net
+                  nullable: false
+                phone:
+                  type: string
+                  description: ''
+                  example: et
+                  nullable: false
+                password:
+                  type: string
+                  description: ''
+                  example: lgbGeosR%<`w!p1W
+                  nullable: false
+                enabled:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: false
+                password_confirmation:
+                  type: string
+                  description: ''
+                  example: quia
+                  nullable: false
+      security: []
+  '/api/v1/users/{id}':
+    get:
+      summary: 'Fetch details of one record'
+      operationId: fetchDetailsOfOneRecord
+      description: "This endpoint allows you to fetch a single user of a tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports text 😎</aside>"
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
+      tags:
+        - Users
+      security: []
+    patch:
+      summary: 'Update a single record'
+      operationId: updateASingleRecord
+      description: "This endpoint allows you to update a single record for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports xml 😎</aside>"
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
+      tags:
+        - Users
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: consequuntur
+                  nullable: false
+                email:
+                  type: string
+                  description: ''
+                  example: barton.asia@example.org
+                  nullable: false
+                phone:
+                  type: string
+                  description: ''
+                  example: perferendis
+                  nullable: false
+                password:
+                  type: string
+                  description: ''
+                  example: 'gJuC^AX!:jm]'
+                  nullable: false
+                enabled:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+                password_confirmation:
+                  type: string
+                  description: ''
+                  example: sed
+                  nullable: false
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'Optional parameter.'
+        required: true
+        schema:
+          type: integer
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: 7
+  /api/v1/users/export/csv:
+    get:
+      summary: 'Download a CSV dump of records'
+      operationId: downloadACSVDumpOfRecords
+      description: "This endpoint allows you to download a csv dump of user records for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports csv 😎</aside>"
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
+      tags:
+        - Users
+      security: []
+  /api/v1/users/export/excel:
+    get:
+      summary: 'Download a Excel dump of records'
+      operationId: downloadAExcelDumpOfRecords
+      description: "This endpoint allows you to download a excel dump of user records for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports xlsx 😎</aside>"
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
+      tags:
+        - Users
+      security: []
+  /api/v1/users/export/pdf:
+    get:
+      summary: 'Download a PDF dump of records'
+      operationId: downloadAPDFDumpOfRecords
+      description: "This endpoint allows you to download a pdf dump of user records for a single tenant.\nIt's a really useful endpoint, and you should play around\nwith it for a bit.\n<aside class='notice'>Supports pdf 😎</aside>"
+      parameters: []
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+        403:
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    error: Forbidden
+                    clientIp: 127.0.0.1
+                    datetime: '2025-01-22 20:39:28'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      error:
+                        type: string
+                        example: Forbidden
+                      clientIp:
+                        type: string
+                        example: 127.0.0.1
+                      datetime:
+                        type: string
+                        example: '2025-01-22 20:39:28'
+      tags:
+        - Users
       security: []
 tags:
   -
     name: Endpoints
     description: ''
+  -
+    name: Permissions
+    description: "\nAPIs for managing the Permissions for users"
+  -
+    name: Roles
+    description: "\nAPIs for managing the Roles for users"
+  -
+    name: Users
+    description: "\nAPIs for managing the User accounts"

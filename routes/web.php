@@ -10,8 +10,6 @@
  */
 
 use Illuminate\Support\Facades\Route;
-use Spatie\Health\Http\Controllers\SimpleHealthCheckController;
-use Spatie\Health\Http\Controllers\HealthCheckResultsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,8 +21,6 @@ use Spatie\Health\Http\Controllers\HealthCheckResultsController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get("/status", HealthCheckResultsController::class);
 
 Route::get("/", function () {
     return view("welcome");

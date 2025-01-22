@@ -292,9 +292,9 @@ class UserController extends Controller implements HasMiddleware
         Log::error($something);
 
         $fileName = 'users_' . now(env('APP_TIMEZONE'))->format('Y-m-d_H-i-s') . '.xlsx';
-        
+
         $directoryPath = storage_path('app/public/');
-        
+
         $filePath = $directoryPath . $fileName;
 
         if (!is_dir($directoryPath)) {

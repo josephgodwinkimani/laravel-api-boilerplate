@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the laravel-api-boilerplate project.
  *
@@ -25,14 +27,14 @@ class XmlResponseMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
-        $response->header("Access-Control-Allow-Origin", "*");
+        $response->header('Access-Control-Allow-Origin', '*');
         $response->header(
-            "Access-Control-Allow-Headers",
-            "Origin, Content-Type, Content-Range, Content-Disposition, Content-Description, X-Auth-Token"
+            'Access-Control-Allow-Headers',
+            'Origin, Content-Type, Content-Range, Content-Disposition, Content-Description, X-Auth-Token'
         );
-        $response->header("Content-Type", "application/xml");
-        $response->header("Access-Control-Expose-Headers", "*");
-        $response->header("Access-Control-Allow-Credentials", "true");
+        $response->header('Content-Type', 'application/xml');
+        $response->header('Access-Control-Expose-Headers', '*');
+        $response->header('Access-Control-Allow-Credentials', 'true');
 
         return $response;
     }

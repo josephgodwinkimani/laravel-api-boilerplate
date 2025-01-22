@@ -1,6 +1,7 @@
 ## Laravel Boilerplate for building REST APIs
 
 - Support Multi-tenancy.
+- Support Roles and Permissions per tenant.
 - Support API documentation for humans.
 - Support Multiple MIME types using Fractal plus other credible libraries.
 - Monitor the health of your api.

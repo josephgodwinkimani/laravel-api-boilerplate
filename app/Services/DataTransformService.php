@@ -21,11 +21,11 @@ use League\Fractal\Manager;
 use League\Fractal\Pagination\CursorInterface;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\Item;
+use League\Fractal\Resource\ResourceInterface;
+use League\Fractal\Serializer\ArraySerializer;
 use League\Fractal\Serializer\DataArraySerializer;
 use League\Fractal\Serializer\JsonApiSerializer;
-use League\Fractal\Serializer\ArraySerializer;
-use League\Fractal\Resource\ResourceInterface;
-use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
 use SimpleXMLElement;
 use Symfony\Component\Yaml\Yaml;
@@ -46,12 +46,12 @@ class DataTransformService
      * Transform an Item
      *
      * @param string $resourceKey
-     * @param \Illuminate\Database\Eloquent\Model|null $model
+     * @param \Illuminate\Database\Eloquent\Model|array|null $model
      * @param \League\Fractal\TransformerAbstract $transformer
      * @param string $type
      * @return array|bool|string|null
      */
-    public function item(string $resourceKey, Model|null $model, TransformerAbstract $transformer, string $type = null)
+    public function item(string $resourceKey, Model|array|null $model, TransformerAbstract $transformer, string $type = null)
     {
         /**
          * Structure all Transformed data in certain ways
@@ -63,14 +63,14 @@ class DataTransformService
             $this->fractal->setSerializer(new JsonApiSerializer());
         }
 
-        if ($type === "data") {
+        if ($type === 'data') {
             /**
              * Adds the 'data' namespace
              */
             $this->fractal->setSerializer(new DataArraySerializer());
         }
 
-        if ($type === "array" || $type === "yaml" || $type === "text") {
+        if ($type === 'array' || $type === 'yaml' || $type === 'text') {
             /**
              * Remove the 'data' namespace for result items
              */
@@ -86,9 +86,8 @@ class DataTransformService
         /**
          * Return results in Extensible Markup Language format
          */
-        if ($type === "xml") {
+        if ($type === 'xml') {
             $xml = new SimpleXMLElement('<?xml version="1.0"?><data></data>');
-            
             // Convert array to XML directly
             array_walk_recursive($data, function ($value, $key) use ($xml) {
                 $xml->addChild(
@@ -105,14 +104,14 @@ class DataTransformService
          *
          * YAML (YAML Ain't Markup Language) is a human-readable data serialization format used for configuration files, data exchange, and more.
          */
-        if ($type === "yaml") {
+        if ($type === 'yaml') {
             return Yaml::dump($data);
         }
 
         /**
          * Return results in Text format
          */
-        if ($type === "text") {
+        if ($type === 'text') {
             return implode(', ', $data);
         }
 
@@ -142,14 +141,14 @@ class DataTransformService
             $this->fractal->setSerializer(new JsonApiSerializer());
         }
 
-        if ($type === "data") {
+        if ($type === 'data') {
             /**
              * Adds the 'data' namespace
              */
             $this->fractal->setSerializer(new DataArraySerializer());
         }
 
-        if ($type === "array" || $type === "yaml" || $type === "text") {
+        if ($type === 'array' || $type === 'yaml' || $type === 'text') {
             /**
              * Remove the 'data' namespace for result items
              */
@@ -160,7 +159,7 @@ class DataTransformService
          * Make a resource out of the data from ORM call
          *
          * Resource Collection - The data can be a collection of any sort of data, as long as the
-         * "collection" is either array or an object implementing ArrayIterator.
+         * 'collection' is either array or an object implementing ArrayIterator.
          */
         $resource = new Collection($collection, $transformer, $resourceKey);
 
@@ -186,9 +185,8 @@ class DataTransformService
         /**
          * Return results in Extensible Markup Language format
          */
-        if ($type === "xml") {
+        if ($type === 'xml') {
             $xml = new SimpleXMLElement('<?xml version="1.0"?><data></data>');
-            
             // Convert array to XML directly
             array_walk_recursive($data, function ($value, $key) use ($xml) {
                 $xml->addChild(
@@ -205,40 +203,18 @@ class DataTransformService
          *
          * YAML (YAML Ain't Markup Language) is a human-readable data serialization format used for configuration files, data exchange, and more.
          */
-        if ($type === "yaml") {
+        if ($type === 'yaml') {
             return Yaml::dump($data);
         }
 
         /**
          * Return results in Text format
          */
-        if ($type === "text") {
+        if ($type === 'text') {
             return implode(', ', $data);
         }
 
         return $data;
-    }
-
-    /**
-     * Convert array to xml
-     *
-     * @param mixed $data
-     * @param mixed $xml_data
-     * @return void
-     */
-    private function array_to_xml($data, &$xml_data)
-    {
-        foreach ($data as $key => $value) {
-            if (is_array($value)) {
-                if (is_numeric($key)) {
-                    $key = 'item' . $key;
-                }
-                $subnode = $xml_data->addChild($key);
-                $this->array_to_xml($value, $subnode);
-            } else {
-                $xml_data->addChild("$key", htmlspecialchars("$value"));
-            }
-        }
     }
 
 }

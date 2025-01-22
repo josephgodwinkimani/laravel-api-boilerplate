@@ -1,7 +1,9 @@
 {
     "recommendations": [
+        "devsense.intelli-php-vscode",
+        "devsense.composer-php-vscode",
         "devsense.phptools-vscode",
         "devsense.profiler-php-vscode",
-        "devsense.composer-php-vscode"
+        "amiralizadeh9480.laravel-extra-intellisense"
     ]
 }
