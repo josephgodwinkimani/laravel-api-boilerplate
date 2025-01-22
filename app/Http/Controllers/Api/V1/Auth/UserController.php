@@ -22,12 +22,12 @@ use App\Transformers\UserTransformer;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use League\Fractal\Pagination\Cursor;
 use Rap2hpoutre\FastExcel\FastExcel;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 
 class UserController extends Controller implements HasMiddleware
 {
@@ -37,9 +37,9 @@ class UserController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            'text',
-            'yaml',
-            'xml'
+            new Middleware('text', except: ['excel']),
+            new Middleware('yaml', except: ['excel']),
+            new Middleware('yaml', except: ['excel']),
         ];
     }
 
@@ -66,14 +66,14 @@ class UserController extends Controller implements HasMiddleware
      * List all Users.
      *
      * This endpoint allows you to list all users of a tenant.
-     * It"s a really useful endpoint, and you should play around
+     * It's a really useful endpoint, and you should play around
      * with it for a bit.
-     * <aside class="notice">Supports json, xml, yaml, text 😎</aside>
+     * <aside class='notice'>Supports json, xml, yaml, text 😎</aside>
      *
      * @queryParam cursor string Indicates where to start fetching results.
      * @queryParam previous string Indicates position of result to start fetching from.
      * @queryParam limit number Indicates how many records you prefer to fetch.
-     * @response status=200 scenario="success"
+     * @response status=200 scenario='success'
      */
     public function index(Request $request)
     {
@@ -83,17 +83,15 @@ class UserController extends Controller implements HasMiddleware
 
         $someModel->setConnection($tenant->connection);
 
-        $currentCursor = $request->query("cursor", null);
+        $currentCursor = $request->query('cursor', null);
 
-        $previousCursor = $request->query("previous", null);
+        $previousCursor = $request->query('previous', null);
 
-        $limit = $request->query("limit", 10);
+        $limit = (int) $request->query('limit', '10');
 
-        if ($currentCursor) {
-            $users = $someModel->where("id", ">", $currentCursor)->take($limit)->get();
-        } else {
-            $users = $someModel->take($limit)->get();
-        }
+        $users = $someModel->when($currentCursor, function ($query) use ($currentCursor) {
+            return $query->where('id', '>', $currentCursor);
+        })->take($limit)->get();
 
         $cursor = null;
 
@@ -109,7 +107,7 @@ class UserController extends Controller implements HasMiddleware
 
         Log::error($something);
 
-        $response = new Response($this->dataTransformer->collection("users", $something, new UserTransformer(), "json", $paginator, $cursor), 200);
+        $response = new Response($this->dataTransformer->collection('users', $something, new UserTransformer(), 'json', $paginator, $cursor), 200);
 
         return $response;
 
@@ -119,12 +117,12 @@ class UserController extends Controller implements HasMiddleware
      * Fetch details of one record
      *
      * This endpoint allows you to fetch a single user of a tenant.
-     * It"s a really useful endpoint, and you should play around
+     * It's a really useful endpoint, and you should play around
      * with it for a bit.
-     * <aside class="notice">Supports text 😎</aside>
+     * <aside class='notice'>Supports text 😎</aside>
      *
      * @urlParam id number
-     * @response status=200 scenario="success"
+     * @response status=200 scenario='success'
      */
     public function show(Request $request)
     {
@@ -139,7 +137,7 @@ class UserController extends Controller implements HasMiddleware
 
         Log::error($something);
 
-        $response = new Response($this->dataTransformer->item("user", $something, new UserTransformer(), "text"), 200);
+        $response = new Response($this->dataTransformer->item('user', $something, new UserTransformer(), 'text'), 200);
 
         return $response;
 
@@ -149,23 +147,23 @@ class UserController extends Controller implements HasMiddleware
      * Save a single record
      *
      * This endpoint allows you to save a single record for a single tenant.
-     * It"s a really useful endpoint, and you should play around
+     * It's a really useful endpoint, and you should play around
      * with it for a bit.
-     * <aside class="notice">Supports json, xml, yaml 😎</aside>
+     * <aside class='notice'>Supports json, xml, yaml 😎</aside>
      *
      * @bodyParam name string
      * @bodyParam email string
      * @bodyParam phone string
      * @bodyParam enabled boolean
-     * @response status=200 scenario="success"
+     * @response status=200 scenario='success'
      */
     public function store(Request $request)
     {
         Validator::make($request->all(), [
-            "name" => "required|string",
-            "email" => "required|string",
-            "phone" => "required|phone:KE",
-            "enabled" => "required|boolean",
+            'name' => 'required|string',
+            'email' => 'required|string',
+            'phone' => 'required|phone:KE',
+            'enabled' => 'required|boolean',
         ]);
 
         $tenant = $this->tenantService->getTenant($request);
@@ -175,16 +173,16 @@ class UserController extends Controller implements HasMiddleware
         $someModel->setConnection($tenant->connection);
 
         $something = $someModel->create([
-            "name" => "Jack",
-            "email" => "jack@gmail.com",
-            "password" => "123"
+            'name' => 'Jack',
+            'email' => 'jack@gmail.com',
+            'password' => '123'
         ]);
 
-        $something = $someModel->where("email", "jack@gmail.com")->first();
+        $something = $someModel->where('email', 'jack@gmail.com')->first();
 
         Log::error($something);
 
-        $response = new Response($this->dataTransformer->item("user", $something, new UserTransformer()), 200);
+        $response = new Response($this->dataTransformer->item('user', $something, new UserTransformer()), 200);
 
         return $response;
 
@@ -194,24 +192,26 @@ class UserController extends Controller implements HasMiddleware
      * Update a single record
      *
      * This endpoint allows you to update a single record for a single tenant.
-     * It"s a really useful endpoint, and you should play around
+     * It's a really useful endpoint, and you should play around
      * with it for a bit.
-     * <aside class="notice">Supports xml 😎</aside>
+     * <aside class='notice'>Supports xml 😎</aside>
      *
      * @urlParam id number
      * @bodyParam name string
      * @bodyParam email string
+     * @bodyParam password string
      * @bodyParam phone string
      * @bodyParam enabled boolean
-     * @response status=200 scenario="success"
+     * @response status=200 scenario='success'
      */
     public function update(Request $request)
     {
         Validator::make($request->all(), [
-            "name" => "required|string",
-            "email" => "required|string",
-            "phone" => "required|phone:DE",
-            "enabled" => "required|boolean",
+            'name' => 'required|string',
+            'email' => 'required|string',
+            'password' => 'string|min:8|confirmed',
+            'phone' => 'required|phone:DE',
+            'enabled' => 'required|boolean',
         ]);
 
         $tenant = $this->tenantService->getTenant($request);
@@ -220,17 +220,18 @@ class UserController extends Controller implements HasMiddleware
 
         $someModel->setConnection($tenant->connection);
 
-        $someModel->update(["id" => last($request->segments())], [
-            "name" => "Jack",
-            "email" => "jack008@gmail.com",
-            "password" => "123"
+        $someModel->update(['id' => last($request->segments())], [
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password)
         ]);
 
         $something = $someModel->find(last($request->segments()));
 
         Log::error($something);
 
-        $response = new Response($this->dataTransformer->item("user", $something, new UserTransformer(), "xml"), 200);
+        $response = new Response($this->dataTransformer->item('user', $something, new UserTransformer(), 'xml'), 200);
 
         return $response;
 
@@ -240,11 +241,11 @@ class UserController extends Controller implements HasMiddleware
      * Download a CSV dump of database table
      *
      * This endpoint allows you to download a csv dump of database table for a single tenant.
-     * It"s a really useful endpoint, and you should play around
+     * It's a really useful endpoint, and you should play around
      * with it for a bit.
-     * <aside class="notice">Supports csv 😎</aside>
+     * <aside class='notice'>Supports csv 😎</aside>
      *
-     * @response status=200 scenario="success"
+     * @response status=200 scenario='success'
      */
     public function csv(Request $request)
     {
@@ -261,7 +262,7 @@ class UserController extends Controller implements HasMiddleware
 
         $csvExporter = new \Laracsv\Export();
 
-        $csvExporter->build($something, ["email", "name", "created_at", "updated_at"]);
+        $csvExporter->build($something, ['id', 'name', 'email', 'phone', 'created_at', 'updated_at']);
 
         return $csvExporter->download();
 
@@ -271,11 +272,11 @@ class UserController extends Controller implements HasMiddleware
      * Download a Excel dump of database table
      *
      * This endpoint allows you to download a excel dump of database table for a single tenant.
-     * It"s a really useful endpoint, and you should play around
+     * It's a really useful endpoint, and you should play around
      * with it for a bit.
-     * <aside class="notice">Supports xlsx 😎</aside>
+     * <aside class='notice'>Supports xlsx 😎</aside>
      *
-     * @response status=200 scenario="success"
+     * @response status=200 scenario='success'
      */
     public function excel(Request $request)
     {
@@ -290,20 +291,38 @@ class UserController extends Controller implements HasMiddleware
 
         Log::error($something);
 
-        $fileName = "users.xlsx";
+        $fileName = 'users_' . now(env('APP_TIMEZONE'))->format('Y-m-d_H-i-s') . '.xlsx';
+        
+        $directoryPath = storage_path('app/public/');
+        
+        $filePath = $directoryPath . $fileName;
 
-        $data = (new FastExcel($something))->export($fileName, function ($user) {
+        if (!is_dir($directoryPath)) {
+            mkdir($directoryPath, 0755, true);
+            Log::info('Created directory: {$directoryPath}');
+        }
+
+        if (!file_exists($filePath)) {
+            touch($filePath);
+            Log::info('Created empty file at: {$filePath}');
+        }
+
+        (new FastExcel($something))->export($filePath, function ($user) {
             return [
-                "Email" => $user->email,
-                "First Name" => $user->name,
+                'Id' => $user->id,
+                'Email' => $user->email,
+                'Full Name' => $user->name,
+                'Phone' => $user->phone,
+                'Created At' => $user->created_at,
+                'Updated At' => $user->updated_at
             ];
         });
 
-        $headers = array(
-            "Content-Type" => "application/vnd.ms-excel",
-        );
+        $headers = [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ];
 
-        return response()->download($data, $fileName, $headers);
+        return response()->download($filePath, $fileName, $headers)->deleteFileAfterSend(true);
 
     }
 
@@ -311,11 +330,11 @@ class UserController extends Controller implements HasMiddleware
      * Download a PDF dump of database table
      *
      * This endpoint allows you to download a pdf dump of database table for a single tenant.
-     * It"s a really useful endpoint, and you should play around
+     * It's a really useful endpoint, and you should play around
      * with it for a bit.
-     * <aside class="notice">Supports pdf 😎</aside>
+     * <aside class='notice'>Supports pdf 😎</aside>
      *
-     * @response status=200 scenario="success"
+     * @response status=200 scenario='success'
      */
     public function pdf(Request $request)
     {
@@ -330,10 +349,10 @@ class UserController extends Controller implements HasMiddleware
 
         Log::error($users);
 
-        $fileName = "users.pdf";
+        $fileName = 'users_' . now(env('APP_TIMEZONE'))->toDateTimeString() . '.pdf';
 
-        $pdf = Pdf::loadView("pdf.users", compact("users"))
-            ->setPaper("a4", "portrait");
+        $pdf = Pdf::loadView('pdf.users', compact('users'))
+            ->setPaper('a4', 'portrait');
 
         return $pdf->download($fileName);
 
