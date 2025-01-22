@@ -36,7 +36,8 @@ class HealthServiceProvider extends ServiceProvider
             //CpuLoadCheck::new()
             //    ->failWhenLoadIsHigherInTheLast5Minutes(200.0)
             //    ->failWhenLoadIsHigherInTheLast15Minutes(150.0),
-            DatabaseCheck::new(),
+            DatabaseCheck::new()->connectionName('hq')->name('hq'),
+            DatabaseCheck::new()->connectionName('branch1')->name('branch1'),
             DatabaseConnectionCountCheck::new()
                 ->warnWhenMoreConnectionsThan(1000)
                 ->failWhenMoreConnectionsThan(9999),
