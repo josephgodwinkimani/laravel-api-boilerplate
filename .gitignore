@@ -11,7 +11,7 @@
 .env.backup
 .env.production
 .phpactor.json
-.php-cs-fixer.cache
+*.cache
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
