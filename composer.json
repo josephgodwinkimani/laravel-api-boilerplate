@@ -28,6 +28,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "league/fractal": "^0.20.1",
+        "propaganistas/laravel-phone": "^5.3",
         "rap2hpoutre/fast-excel": "^5.5",
         "spatie/cpu-load-health-check": "^1.0",
         "spatie/laravel-health": "^1.32",
