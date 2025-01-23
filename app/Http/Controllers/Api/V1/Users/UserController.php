@@ -290,7 +290,7 @@ class UserController extends Controller implements HasMiddleware
 
         $userModel->setConnection($tenant->connection);
 
-        $userModel = $userModel->find(last($request->segments()))->first();
+        $userModel = $userModel->find(last($request->segments()));
 
         // Update the user's attributes
         $updateModel = (bool) $userModel->update([
