@@ -92,7 +92,6 @@ class LoginController extends Controller implements HasMiddleware
             ];
             $response = json_encode($array, JSON_UNESCAPED_SLASHES);
             Log::error($response);
-
             return response(
                 $response,
                 400
@@ -120,17 +119,11 @@ class LoginController extends Controller implements HasMiddleware
             ];
             $response = json_encode($array, JSON_UNESCAPED_SLASHES);
             Log::error($response);
-
             return response(
                 $response,
                 400
             )->header('Content-Type', 'application/json');
         }
-
-        Log::info(json_encode(new UserResource($user)));
-
-        // Get the currently authenticated user.
-        $user = Auth::user();
 
         Log::info(json_encode(new UserResource($user)));
 
