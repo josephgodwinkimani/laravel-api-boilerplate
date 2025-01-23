@@ -290,12 +290,38 @@ class UserController extends Controller implements HasMiddleware
 
         $userModel->setConnection($tenant->connection);
 
-        $userModel->update(['id' => last($request->segments())], [
+        $userModel = $userModel->find(last($request->segments()))->first();
+
+        // Update the user's attributes
+        $updateModel = (bool) $userModel->update([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'active' => $request->active
         ]);
+
+        // Check if updating model fails
+        if (!$updateModel) {
+            $array = [
+                'data' => [
+                    'type' => 'user',
+                    'error' => 'The provided parameter values are incorrect.',
+                    'clientIp' => $request->getClientIp(),
+                    'url' => $request->path(),
+                    'datetime' => now(env('APP_TIMEZONE'))->toDateTimeString(),
+                ]
+            ];
+            $response = json_encode($array, JSON_UNESCAPED_SLASHES);
+            Log::error($response);
+
+            return response(
+                $response,
+                400
+            )->header('Content-Type', 'application/json');
+        }
+
+        Log::info((string) $updateModel);
 
         $user = $userModel->find(last($request->segments()));
 
