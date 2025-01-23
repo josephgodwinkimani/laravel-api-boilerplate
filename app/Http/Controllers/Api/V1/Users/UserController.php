@@ -442,7 +442,7 @@ class UserController extends Controller implements HasMiddleware
 
         $users = $userModel->get();
 
-        Log::info(json_encode(UserResource::collection($users)));
+        Log::info(json_encode(new UserCollection($users)));
 
         $fileName = 'users_' . now(env('APP_TIMEZONE'))->toDateTimeString() . '.pdf';
 
