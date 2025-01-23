@@ -42,6 +42,7 @@ class UserTransformer extends Fractal\TransformerAbstract
             'roles' => $user->roles,
             'email' => $user->email,
             'email_verified_at' => $user->email_verified_at,
+            'last_login_at' => $user->last_login_at,
             'remember_token' => $user->remember_token,
             'created_at' => Carbon::parse($user->created_at)->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::parse($user->updated_at)->format('Y-m-d H:i:s'),

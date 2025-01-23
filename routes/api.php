@@ -9,9 +9,11 @@
  * file that was distributed with this source code.
  */
 
+use App\Http\Controllers\Api\V1\Auth\LoginController;
+use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\PermissionController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
-use App\Http\Controllers\Api\V1\Auth\LoginController;
+use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\V1\Auth\RoleController;
 use App\Http\Controllers\Api\V1\Users\UserController;
 use Illuminate\Http\Request;
@@ -31,7 +33,7 @@ use Spatie\Health\Http\Controllers\HealthCheckJsonResultsController;
 
 Route::get('health', HealthCheckJsonResultsController::class);
 
-Route::post('/register', [RegisterController::class, 'store'])->name('store');
+Route::post('/register', [RegisterController::class, 'store'])->name('register:store');
 
 Route::get('/login', function (Request $request) {
     $array = [
@@ -50,15 +52,22 @@ Route::get('/login', function (Request $request) {
     )->header('Content-Type', 'application/json');
 })->name('login');
 
-Route::post('/login', [LoginController::class, 'store'])->name('store');
+Route::post('/login', [LoginController::class, 'store'])->name('login:store');
 
-Route::prefix('v1')->group(
+Route::post('/logout/{user}', [LogoutController::class, 'single'])->name('logout:single');
+
+Route::post('/resetpassword', [ResetPasswordController::class, 'update'])->name('resetpassword:update');
+
+Route::group(
+    [
+        'middleware' => ['auth:sanctum'],
+    ],
     function () {
 
-        Route::group(
-            [
-                'middleware' => ['auth:sanctum'],
-            ],
+        // Essential
+        Route::get('/logout/{user}', [LogoutController::class, 'all'])->name('logout:all');
+
+        Route::prefix('v1')->group(
             function () {
 
                 // User Routes

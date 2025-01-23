@@ -18,16 +18,14 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\DataTransformService;
 use App\Services\TenantService;
-use App\Transformers\UserTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller implements HasMiddleware
+class ResetPasswordController extends Controller implements HasMiddleware
 {
     /**
      * Get the middleware that should be assigned to the controller.
@@ -61,18 +59,19 @@ class LoginController extends Controller implements HasMiddleware
     }
 
     /**
-     * Authenticate Existing User
+     * Reset Password of an Existing User
      *
-     * This endpoint allows you to authenticates existing user for a single tenant.
+     * This endpoint allows you to reset the password of an existing user for a single tenant.
      *
      * <aside class='notice'>Supports json, xml, yaml 😎</aside>
      *
      * @bodyParam phone string
      * @bodyParam password string
-     * @response status=200 scenario='success'
+     * @response status=200 scenario='success' {"data": {"type": "user","error": "Your account password has been changed.","clientIp": "127.0.0.1","url": "api/resetpassword","datetime": "2025-01-23 09:55:19"}}
+     * @response status=400 scenario='bad request' {"data": {"type": "user","error": ["The password field is required."],"clientIp": "127.0.0.1","datetime": "2025-01-22 20:39:28"}}
      * @response status=403 scenario='forbidden' {"data": {"type": "user","error": "Forbidden","clientIp": "127.0.0.1","datetime": "2025-01-22 20:39:28"}}
      */
-    public function store(Request $request)
+    public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'phone' => 'required|phone:KE',
@@ -108,7 +107,7 @@ class LoginController extends Controller implements HasMiddleware
         $user = $userModel->where('phone', $request->phone)->first();
 
         // Check if user exists and password matches
-        if (!$user || !Hash::check($request->password, $user->password) || !Auth::attempt($request->only('phone', 'password'))) {
+        if (!$user) {
             $array = [
                 'data' => [
                     'type' => 'user',
@@ -129,17 +128,26 @@ class LoginController extends Controller implements HasMiddleware
 
         Log::info(json_encode(new UserResource($user)));
 
-        // Get a roles collection of user with the values of the name column.
-        $roles = $user->roles()->pluck('name')->toArray();
+        $userModel->update(['phone' => $request->phone], [
+            'password' => Hash::make($request->password)
+        ]);
 
-        // Create a new personal access token for the user.
-        $token = $user->createToken($user->phone, $roles)->plainTextToken;
+        $array = [
+            'data' => [
+                'type' => 'user',
+                'error' => 'Your account password has been changed.',
+                'clientIp' => $request->getClientIp(),
+                'url' => $request->path(),
+                'datetime' => now(env('APP_TIMEZONE'))->toDateTimeString(),
+            ]
+        ];
+        $response = json_encode($array, JSON_UNESCAPED_SLASHES);
+        Log::info($response);
 
-        $data = array_merge($user->getAttributes(), ['token' => $token, 'roles' => $user->roles()->pluck('name')->toArray()]);
-
-        Log::info(json_encode($data));
-
-        return new Response($this->dataTransformer->item('user', $data, new UserTransformer()), 200);
+        return response(
+            $response,
+            200
+        )->header('Content-Type', 'application/json');
 
     }
 }
